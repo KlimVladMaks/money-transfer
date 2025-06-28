@@ -1,4 +1,4 @@
-package org.example;
+package me.klimvlad.moneytransfer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

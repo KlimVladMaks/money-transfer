@@ -19,7 +19,7 @@ java {
 }
 
 application {
-    mainClass = "org.example.App"
+    mainClass = "me.klimvlad.moneytransfer.App"
 }
 
 javafx {
