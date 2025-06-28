@@ -31,9 +31,10 @@ public class MainMenu {
         layout.setAlignment(Pos.CENTER);
         
         // Настройка сцены и отображение
-        Scene scene = new Scene(layout, 400, 300);
+        Scene scene = new Scene(layout, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.setTitle("MoneyTransfer");
+        primaryStage.setResizable(false);
         primaryStage.show();
         
         // Обработчики событий для кнопок
