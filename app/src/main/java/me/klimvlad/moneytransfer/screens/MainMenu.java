@@ -1,4 +1,4 @@
-package me.klimvlad.moneytransfer;
+package me.klimvlad.moneytransfer.screens;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -8,15 +8,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class MainMenu {
-    private Stage primaryStage;
+public class MainMenu implements Screen {
+    private final Stage primaryStage;
+    private final Runnable onRegisterRequest;
     
-    public MainMenu(Stage primaryStage) {
+    public MainMenu(Stage primaryStage, Runnable onRegisterRequest) {
         this.primaryStage = primaryStage;
+        this.onRegisterRequest = onRegisterRequest;
     }
     
+    @Override
     public void show() {
-        // Создаем элементы интерфейса
         Text title = new Text("MoneyTransfer");
         title.setFont(Font.font(24));
         
@@ -26,26 +28,15 @@ public class MainMenu {
         Button registerButton = new Button("Зарегистрироваться");
         registerButton.setPrefWidth(200);
         
-        // Располагаем элементы вертикально
         VBox layout = new VBox(20, title, loginButton, registerButton);
         layout.setAlignment(Pos.CENTER);
         
-        // Настройка сцены и отображение
         Scene scene = new Scene(layout, 800, 600);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("MoneyTransfer");
+        primaryStage.setTitle("MoneyTransfer - Главное меню");
         primaryStage.setResizable(false);
         primaryStage.show();
         
-        // Обработчики событий для кнопок
-        loginButton.setOnAction(e -> {
-            // Здесь будет переход к окну входа
-            System.out.println("Login");
-        });
-        
-        registerButton.setOnAction(e -> {
-            // Здесь будет переход к окну регистрации
-            System.out.println("Register");
-        });
+        registerButton.setOnAction(e -> onRegisterRequest.run());
     }
 }
