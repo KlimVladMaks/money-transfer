@@ -25,7 +25,7 @@ public class RegisterWindow implements Screen {
         title.setFont(Font.font(24));
         
         // Логин
-        Text loginLabel = new Text("Введите уникальный логин (повторите ввод дважды):");
+        Text loginLabel = new Text("Введите уникальный логин:");
         TextField loginField1 = new TextField();
         loginField1.setPromptText("Логин");
         loginField1.setMaxWidth(200);
@@ -38,7 +38,7 @@ public class RegisterWindow implements Screen {
         loginFields.setAlignment(Pos.CENTER);
         
         // Пароль
-        Text passwordLabel = new Text("Введите пароль (повторите ввод дважды):");
+        Text passwordLabel = new Text("Введите пароль:");
         TextField passwordField1 = new TextField();
         passwordField1.setPromptText("Пароль");
         passwordField1.setMaxWidth(200);
