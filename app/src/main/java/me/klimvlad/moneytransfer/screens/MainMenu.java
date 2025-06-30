@@ -11,9 +11,11 @@ import javafx.stage.Stage;
 public class MainMenu implements Screen {
     private final Stage primaryStage;
     private final Runnable onRegisterRequest;
+    private final Runnable onLoginRequest;
     
-    public MainMenu(Stage primaryStage, Runnable onRegisterRequest) {
+    public MainMenu(Stage primaryStage, Runnable onLoginRequest, Runnable onRegisterRequest) {
         this.primaryStage = primaryStage;
+        this.onLoginRequest = onLoginRequest;
         this.onRegisterRequest = onRegisterRequest;
     }
     
@@ -37,6 +39,7 @@ public class MainMenu implements Screen {
         primaryStage.setResizable(false);
         primaryStage.show();
         
+        loginButton.setOnAction(e -> onLoginRequest.run());
         registerButton.setOnAction(e -> onRegisterRequest.run());
     }
 }
