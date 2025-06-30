@@ -57,12 +57,17 @@ public class RegisterWindow implements Screen {
         Button cancelButton = new Button("Отменить");
         cancelButton.setPrefWidth(200);
         cancelButton.setOnAction(e -> onBackRequest.run());
+
+        Button goToLoginButton = new Button("Войти в аккаунт");
+        goToLoginButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #0066cc; -fx-underline: true; -fx-font-size: 12px;");
+        goToLoginButton.setOnMouseEntered(e -> goToLoginButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #004499; -fx-underline: true; -fx-font-size: 12px; -fx-cursor: hand;"));
+        goToLoginButton.setOnMouseExited(e -> goToLoginButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #0066cc; -fx-underline: true; -fx-font-size: 12px; -fx-cursor: default;"));
         
         VBox layout = new VBox(20, 
             title, 
             loginLabel, loginFields, 
             passwordLabel, passwordFields, 
-            createAccountButton, cancelButton);
+            createAccountButton, cancelButton, goToLoginButton);
         layout.setAlignment(Pos.CENTER);
         
         Scene scene = new Scene(layout, 800, 600);
