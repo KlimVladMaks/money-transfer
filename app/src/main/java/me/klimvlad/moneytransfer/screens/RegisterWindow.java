@@ -49,6 +49,12 @@ public class RegisterWindow implements Screen {
         
         HBox passwordFields = new HBox(10, passwordField1, passwordField2);
         passwordFields.setAlignment(Pos.CENTER);
+
+        // Описание
+        Text descriptionLabel = new Text("Введите описание (например, ФИО и т.п.):");
+        TextField descriptionField = new TextField();
+        descriptionField.setPromptText("Описание");
+        descriptionField.setMaxWidth(200);
         
         // Кнопки
         Button createAccountButton = new Button("Создать новый аккаунт");
@@ -67,6 +73,7 @@ public class RegisterWindow implements Screen {
             title, 
             loginLabel, loginFields, 
             passwordLabel, passwordFields, 
+            descriptionLabel, descriptionField,
             createAccountButton, cancelButton, goToLoginButton);
         layout.setAlignment(Pos.CENTER);
         
