@@ -2,6 +2,7 @@ package me.klimvlad.moneytransfer.screens;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -9,14 +10,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import me.klimvlad.moneytransfer.api.ApiClient;
 
 public class RegisterWindow implements Screen {
     private final Stage primaryStage;
     private final Runnable onBackRequest;
+    private final ApiClient apiClient;
     
     public RegisterWindow(Stage primaryStage, Runnable onBackRequest) {
         this.primaryStage = primaryStage;
         this.onBackRequest = onBackRequest;
+        this.apiClient = new ApiClient();
     }
     
     @Override
@@ -59,6 +63,39 @@ public class RegisterWindow implements Screen {
         // Кнопки
         Button createAccountButton = new Button("Создать новый аккаунт");
         createAccountButton.setPrefWidth(200);
+        createAccountButton.setOnAction(e -> {
+            // Проверка полей
+            if (loginField1.getText().isEmpty() || loginField2.getText().isEmpty() || 
+                passwordField1.getText().isEmpty() || passwordField2.getText().isEmpty()) {
+                showAlert("Ошибка", "Все поля должны быть заполнены");
+                return;
+            }
+            
+            if (!loginField1.getText().equals(loginField2.getText())) {
+                showAlert("Ошибка", "Логины не совпадают");
+                return;
+            }
+            
+            if (!passwordField1.getText().equals(passwordField2.getText())) {
+                showAlert("Ошибка", "Пароли не совпадают");
+                return;
+            }
+            
+            // Отправка запроса
+            try {
+                String response = apiClient.registerUser(
+                    loginField1.getText(),
+                    passwordField1.getText(),
+                    descriptionField.getText()
+                );
+                
+                showAlert("Успех", "Аккаунт успешно создан: " + response);
+                onBackRequest.run();
+            } catch (Exception ex) {
+                showAlert("Ошибка", "Не удалось создать аккаунт: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
         
         Button cancelButton = new Button("Отменить");
         cancelButton.setPrefWidth(200);
@@ -82,5 +119,13 @@ public class RegisterWindow implements Screen {
         primaryStage.setTitle("MoneyTransfer - Регистрация");
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+    
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
