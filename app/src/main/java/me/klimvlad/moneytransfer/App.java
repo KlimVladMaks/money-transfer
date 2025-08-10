@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import me.klimvlad.moneytransfer.screens.MainMenu;
 import me.klimvlad.moneytransfer.screens.RegisterWindow;
+import me.klimvlad.moneytransfer.screens.BalanceWindow;
 import me.klimvlad.moneytransfer.screens.LoginWindow;
 
 public class App extends Application {
@@ -26,8 +27,13 @@ public class App extends Application {
     }
 
     private void showLoginWindow() {
-        LoginWindow loginWindow = new LoginWindow(primaryStage, this::showMainMenu);
+        LoginWindow loginWindow = new LoginWindow(primaryStage, this::showMainMenu, this::showBalanceWindow);
         loginWindow.show();
+    }
+
+    private void showBalanceWindow() {
+        BalanceWindow balanceWindow = new BalanceWindow(primaryStage);
+        balanceWindow.show();
     }
 
     public static void main(String[] args) {

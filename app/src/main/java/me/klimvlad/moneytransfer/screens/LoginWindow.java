@@ -12,10 +12,12 @@ import javafx.stage.Stage;
 public class LoginWindow implements Screen {
     private final Stage primaryStage;
     private final Runnable onBackRequest;
+    private final Runnable onBalanceRequest;
     
-    public LoginWindow(Stage primaryStage, Runnable onBackRequest) {
+    public LoginWindow(Stage primaryStage, Runnable onBackRequest, Runnable onBalanceRequest) {
         this.primaryStage = primaryStage;
         this.onBackRequest = onBackRequest;
+        this.onBalanceRequest = onBalanceRequest;
     }
     
     @Override
@@ -38,6 +40,7 @@ public class LoginWindow implements Screen {
         // Кнопки
         Button loginButton = new Button("Войти в аккаунт");
         loginButton.setPrefWidth(200);
+        loginButton.setOnAction(e -> onBalanceRequest.run());
         
         Button cancelButton = new Button("Отменить");
         cancelButton.setPrefWidth(200);
