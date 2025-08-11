@@ -8,16 +8,23 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import me.klimvlad.moneytransfer.api.ApiClient;
+import me.klimvlad.moneytransfer.api.SessionManager;
+import org.json.JSONObject;
 
 public class LoginWindow implements Screen {
     private final Stage primaryStage;
     private final Runnable onBackRequest;
     private final Runnable onBalanceRequest;
+    private final ApiClient apiClient;
+    private final SessionManager sessionManager;
     
     public LoginWindow(Stage primaryStage, Runnable onBackRequest, Runnable onBalanceRequest) {
         this.primaryStage = primaryStage;
         this.onBackRequest = onBackRequest;
         this.onBalanceRequest = onBalanceRequest;
+        this.apiClient = new ApiClient();
+        this.sessionManager = SessionManager.getInstance();
     }
     
     @Override
@@ -37,10 +44,38 @@ public class LoginWindow implements Screen {
         passwordField.setPromptText("Пароль");
         passwordField.setMaxWidth(200);
         
+        // Сообщение об ошибке
+        Text errorMessage = new Text();
+        errorMessage.setStyle("-fx-fill: red;");
+        
         // Кнопки
         Button loginButton = new Button("Войти в аккаунт");
         loginButton.setPrefWidth(200);
-        loginButton.setOnAction(e -> onBalanceRequest.run());
+        loginButton.setOnAction(e -> {
+            String login = loginField.getText();
+            String password = passwordField.getText();
+            
+            if (login.isEmpty() || password.isEmpty()) {
+                errorMessage.setText("Логин и пароль не могут быть пустыми");
+                return;
+            }
+            
+            try {
+                String response = apiClient.loginUser(login, password);
+                JSONObject jsonResponse = new JSONObject(response);
+                
+                if (jsonResponse.has("sessionId")) {
+                    String sessionId = jsonResponse.getString("sessionId");
+                    sessionManager.setSessionId(sessionId);
+                    onBalanceRequest.run();
+                } else {
+                    errorMessage.setText("Ошибка авторизации: неверный логин или пароль");
+                }
+            } catch (Exception ex) {
+                errorMessage.setText("Ошибка соединения с сервером");
+                ex.printStackTrace();
+            }
+        });
         
         Button cancelButton = new Button("Отменить");
         cancelButton.setPrefWidth(200);
@@ -56,6 +91,7 @@ public class LoginWindow implements Screen {
             title, 
             loginLabel, loginField, 
             passwordLabel, passwordField, 
+            errorMessage,
             loginButton, cancelButton, goToRegisterButton);
         layout.setAlignment(Pos.CENTER);
         

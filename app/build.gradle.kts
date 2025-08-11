@@ -10,6 +10,7 @@ repositories {
 dependencies {
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("org.json:json:20231013")
 }
 
 java {

@@ -30,4 +30,22 @@ public class ApiClient {
         
         return response.body();
     }
+
+    public String loginUser(String login, String password) throws IOException, InterruptedException {
+        String encodedLogin = URLEncoder.encode(login, StandardCharsets.UTF_8);
+        String encodedPassword = URLEncoder.encode(password, StandardCharsets.UTF_8);
+        
+        String url = String.format("%s/login?login=%s&password=%s", 
+                BASE_URL, encodedLogin, encodedPassword);
+        
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+        
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        return response.body();
+    }
 }
