@@ -32,7 +32,7 @@ public class App extends Application {
     }
 
     private void showBalanceWindow() {
-        BalanceWindow balanceWindow = new BalanceWindow(primaryStage);
+        BalanceWindow balanceWindow = new BalanceWindow(primaryStage, this::showMainMenu);
         balanceWindow.show();
     }
 

@@ -48,4 +48,21 @@ public class ApiClient {
         
         return response.body();
     }
+
+    public String logoutUser(String sessionId) throws IOException, InterruptedException {
+        String encodedSessionId = URLEncoder.encode(sessionId, StandardCharsets.UTF_8);
+        
+        String url = String.format("%s/logout?sessionId=%s", 
+                BASE_URL, encodedSessionId);
+        
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+        
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        return response.body();
+        }
 }
