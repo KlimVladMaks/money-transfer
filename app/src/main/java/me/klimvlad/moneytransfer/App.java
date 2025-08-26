@@ -1,4 +1,4 @@
-// Код оптимизации: 1
+// Номер оптимизации: 1
 
 package me.klimvlad.moneytransfer;
 
