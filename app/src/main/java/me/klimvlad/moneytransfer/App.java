@@ -42,10 +42,9 @@ public class App extends Application {
 
     private void changeScreen(Screen newScreen) {
         if (currentScreen != null) {
-            try { currentScreen.onHide(); } catch (Exception e) { log(e); }
+            try { currentScreen.close(); } catch (Exception e) { System.err.println(e); }
         }
         currentScreen = newScreen;
-        primaryStage.setScene(currentScreen.getScene());
-        currentScreen.onShow();
+        primaryStage.show();
     }
 }

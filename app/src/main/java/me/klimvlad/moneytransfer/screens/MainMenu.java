@@ -1,3 +1,5 @@
+// Код оптимизации: 1
+
 package me.klimvlad.moneytransfer.screens;
 
 import javafx.geometry.Pos;
@@ -12,34 +14,40 @@ public class MainMenu implements Screen {
     private final Stage primaryStage;
     private final Runnable onRegisterRequest;
     private final Runnable onLoginRequest;
-    
+    private Button loginButton;
+    private Button registerButton;
+
     public MainMenu(Stage primaryStage, Runnable onLoginRequest, Runnable onRegisterRequest) {
         this.primaryStage = primaryStage;
         this.onLoginRequest = onLoginRequest;
         this.onRegisterRequest = onRegisterRequest;
     }
-    
+
     @Override
     public void show() {
         Text title = new Text("MoneyTransfer");
         title.setFont(Font.font(24));
-        
-        Button loginButton = new Button("Войти");
+
+        loginButton = new Button("Войти");
         loginButton.setPrefWidth(200);
-        
-        Button registerButton = new Button("Зарегистрироваться");
+
+        registerButton = new Button("Зарегистрироваться");
         registerButton.setPrefWidth(200);
-        
+
+        loginButton.setOnAction(e -> onLoginRequest.run());
+        registerButton.setOnAction(e -> onRegisterRequest.run());
+
         VBox layout = new VBox(20, title, loginButton, registerButton);
         layout.setAlignment(Pos.CENTER);
-        
+
         Scene scene = new Scene(layout, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.setTitle("MoneyTransfer - Главное меню");
         primaryStage.setResizable(false);
         primaryStage.show();
-        
-        loginButton.setOnAction(e -> onLoginRequest.run());
-        registerButton.setOnAction(e -> onRegisterRequest.run());
     }
+
+    @Override
+    public void close() {}
+
 }
