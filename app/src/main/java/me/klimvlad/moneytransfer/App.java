@@ -1,4 +1,4 @@
-// Номер оптимизации: 1
+// Код оптимизации: 1
 
 package me.klimvlad.moneytransfer;
 
@@ -42,10 +42,10 @@ public class App extends Application {
 
     private void changeScreen(Screen newScreen) {
         if (currentScreen != null) {
-            currentScreen.close();
+            try { currentScreen.onHide(); } catch (Exception e) { log(e); }
         }
-
         currentScreen = newScreen;
-        currentScreen.show();
+        primaryStage.setScene(currentScreen.getScene());
+        currentScreen.onShow();
     }
 }

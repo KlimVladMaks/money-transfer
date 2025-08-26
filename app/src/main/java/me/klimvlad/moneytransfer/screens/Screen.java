@@ -1,8 +1,11 @@
-// Номер оптимизации: 1
+// Код оптимизации: 1
 
 package me.klimvlad.moneytransfer.screens;
 
+import javafx.scene.Scene;
+
 public interface Screen {
-    void show();
-    void close();
+    Scene getScene();
+    default void onShow() {}
+    default void onHide() {}
 }
