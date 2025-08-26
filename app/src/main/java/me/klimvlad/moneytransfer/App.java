@@ -1,42 +1,51 @@
+// Код оптимизации: 1
+
 package me.klimvlad.moneytransfer;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import me.klimvlad.moneytransfer.screens.MainMenu;
-import me.klimvlad.moneytransfer.screens.RegisterWindow;
 import me.klimvlad.moneytransfer.screens.BalanceWindow;
 import me.klimvlad.moneytransfer.screens.LoginWindow;
+import me.klimvlad.moneytransfer.screens.MainMenu;
+import me.klimvlad.moneytransfer.screens.RegisterWindow;
+import me.klimvlad.moneytransfer.screens.Screen;
 
 public class App extends Application {
     private Stage primaryStage;
-
+    private Screen currentScreen;
+    
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         showMainMenu();
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     private void showMainMenu() {
-        MainMenu mainMenu = new MainMenu(primaryStage, this::showLoginWindow, this::showRegisterWindow);
-        mainMenu.show();
+        changeScreen(new MainMenu(primaryStage, this::showLoginWindow, this::showRegisterWindow));
     }
 
     private void showRegisterWindow() {
-        RegisterWindow registerWindow = new RegisterWindow(primaryStage, this::showMainMenu);
-        registerWindow.show();
+        changeScreen(new RegisterWindow(primaryStage, this::showMainMenu));
     }
 
     private void showLoginWindow() {
-        LoginWindow loginWindow = new LoginWindow(primaryStage, this::showMainMenu, this::showBalanceWindow);
-        loginWindow.show();
+        changeScreen(new LoginWindow(primaryStage, this::showMainMenu, this::showBalanceWindow));
     }
 
     private void showBalanceWindow() {
-        BalanceWindow balanceWindow = new BalanceWindow(primaryStage, this::showMainMenu);
-        balanceWindow.show();
+        changeScreen(new BalanceWindow(primaryStage, this::showMainMenu));
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    private void changeScreen(Screen newScreen) {
+        if (currentScreen != null) {
+            currentScreen.close();
+        }
+
+        currentScreen = newScreen;
+        currentScreen.show();
     }
 }
